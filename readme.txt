@@ -1,20 +1,20 @@
 === Daily Inspiration Generator ===
 Contributors: Fire G
-Plugin link: http://fire-studios.com/
+Plugin link: http://fire-studios.com
 Tags: daily, inspiration, generator, automatic
 Requires at least: 2.5.1
 Tested up to: 2.9
 Stable tag: 1.0
 
-Automatically gnerates a daily series of posts showing the most inspiring images from the biggest galleries on the web presented throughout the day.
+Automatically creates a "Daily Inspiration" post at the end of each day.
 
 == Description ==
 
-Automatically gnerates a daily series of posts showing the most inspiring images from the biggest galleries on the web presented throughout the day.
+Automatically generates a daily series of posts showing the most inspiring images from the biggest galleries on the web presented throughout the day.
 
-**Change log**
+== Changelog ==
 
-_1.0_
+__1.0__
  - Automatically posts using cron
 
 Beta 2

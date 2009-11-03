@@ -57,34 +57,7 @@ add_option("dib-opening", $dib_opening);
 // Delete this function and the action at the bottom to remove this functionality
 require('admin/add-admin-page.php');
 
-// Insert all the files from the "features" folder
-// Do not edit
-$files          = array();
-$path           = dirname( __FILE__ ) . "/features/";
- 
-/* INIT */
-foreach ( new DirectoryIterator( $path ) as $file ) {
-    /* We don't want dot files */
-    if ( ! $file->isDot() ) {
-        $fileName = $file->getFilename();
-
-        /* Ensure we're getting PHP only */
-        if ( substr( $fileName, strrpos( $fileName, "." ) ) == ".php" ) {
-            /* Add into array */
-            $files[] .= $fileName;
-        }
-    }
-}
- 
-$features =& $files;    /* Make reference */
-foreach( $features as $feature ) {
-	require( $path . $feature );
-}
- 
-if ( sizeof( $features ) == 0 ) {
-	echo "<strong><em><font color='red'>There are no feature files avaliable. Please be sure to have all features inside the 'features' folder.</font></em></strong>";
-}
-// End file acquiring from "features" folder
+require('features/builder.php');
 
 // insert admin page into menu, delete if not using an admin page
 add_action('admin_menu', 'add_config_page');

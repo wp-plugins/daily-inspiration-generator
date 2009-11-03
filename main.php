@@ -3,7 +3,7 @@
 Plugin Name: Daily Inspiration Generator
 Plugin URI: http://fire-studios.com/
 Description: Automatically generates a "Daily Inspiration" at the end of each day
-Version: 1.0
+Version: 1.1
 Author: Jonathan Wolfe
 Author URI: http://fire-g.com/
 */

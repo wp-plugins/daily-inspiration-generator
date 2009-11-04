@@ -4,7 +4,7 @@ Plugin link: http://fire-studios.com
 Tags: daily, inspiration, generator, automatic
 Requires at least: 2.5.1
 Tested up to: 2.9
-Stable tag: 1.2
+Stable tag: trunk
 
 Automatically creates a "Daily Inspiration" post at the end of each day.
 

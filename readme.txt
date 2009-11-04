@@ -4,7 +4,7 @@ Plugin link: http://fire-studios.com
 Tags: daily, inspiration, generator, automatic
 Requires at least: 2.5.1
 Tested up to: 2.9
-Stable tag: 1.1
+Stable tag: 1.1.1
 
 Automatically creates a "Daily Inspiration" post at the end of each day.
 
@@ -12,8 +12,13 @@ Automatically creates a "Daily Inspiration" post at the end of each day.
 
 Automatically generates a daily series of posts showing the most inspiring images from the biggest galleries on the web presented throughout the day.
 
+**May not work on all PHP configurations**
+
 == Change log ==
-__1.1__
+__1.1.1__
+ - Added check for returned feed content
+
+1.1
  - Slight changes for stability and compatibility
 
 1.0

@@ -40,6 +40,10 @@ $dib_opening        = get_option("dib-opening");
 ?>
 
 <div class="wrap">
+    <?php 
+        $configured = file_get_contents('http://google.com');
+        if(!$configured) echo '<div class="error" style="text-align: center;"><p style="color: red; font-size: 14px; font-weight: bold;">You\'re not ready to use this plugin! Please revist the download page and follow the instructions!</p></div>';
+    ?>
 	<h2><?php echo $plugin_name; ?></h2>
 	<form action="" method="post" id="<?php echo $plugin_ref; ?>-config">
 		<table class="form-table">
@@ -68,8 +72,8 @@ $dib_opening        = get_option("dib-opening");
             <tr>
 				<th scope="row" valign="top"><label for="auto-post">Automatically Publish?</label></th>
 				<td><fieldset id="auto-publish">
-                    <input type="radio" name="yes" id="yes" value="yes" <?php if($auto_post == 'yes') echo 'checked="checked" ' ?>/> Yes &nbsp; &nbsp; &nbsp; &nbsp;
-                    <input type="radio" name="no" id="no" value="no" <?php if($auto_post == 'no') echo 'checked="checked" ' ?>/> No
+                    <input type="radio" name="auto" id="yes" value="yes" <?php if($auto_post == 'yes') echo 'checked="checked" ' ?>/> Yes &nbsp; &nbsp; &nbsp; &nbsp;
+                    <input type="radio" name="auto" id="no" value="no" <?php if($auto_post == 'no') echo 'checked="checked" ' ?>/> No
                 </fieldset></td>
 			</tr>
             <tr>

@@ -12,10 +12,14 @@ Automatically creates a "Daily Inspiration" post at the end of each day.
 
 Automatically generates a daily series of posts showing the most inspiring images from the biggest galleries on the web presented throughout the day.
 
-**Very important that you read instructions!**
+**Very important that you read the instructions!**
 
 == Change log ==
-__1.2__
+__1.2.1__
+ - Fixed auto-publish selecting bug
+ - added warning if not configured correctly
+
+1.2
  - Fixed "fopen()" not working on all servers
 
 1.1.1

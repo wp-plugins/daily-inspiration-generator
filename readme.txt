@@ -15,7 +15,10 @@ Automatically generates a daily series of posts showing the most inspiring image
 **Very important that you read the instructions!**
 
 == Change log ==
-__1.2.1__
+__1.3__
+ - Added customizations: "tags", "hour", & "limit"
+
+1.2.1
  - Fixed auto-publish selecting bug
  - added warning if not configured correctly
 
@@ -49,5 +52,5 @@ Alpha 1
 1. Activate the plugin within the WordPress Administration
 1. Go to Settings > Daily Inspiration Generator
 1. Adjust Settings as desired
-1. Open `".htaccess"` and add `"php_flag allow_url_fopen on"` to the file
-1. That's it. It will post automatically everyday, automatically at 11pm.
+1. Open your `.htaccess` and add `php_flag allow_url_fopen on` to the file
+1. That's it. It will post automatically everyday.

@@ -19,6 +19,9 @@ if ( isset($_POST['submit']) ) {
     if(isset($_POST['no']))    $auto_post = $_POST['no'];
 	$dib_cats       	    = $_POST['post_category'];
     $dib_opening            = $_POST['opening'];
+    $dib_tags               = $_POST['tags'];
+    $dib_hour               = $_POST['hour'];
+    $dib_limit              = $_POST['limit'];
 	
 	// Update the DB with the new option values
 	update_option("dib-location", mysql_real_escape_string($location));
@@ -27,6 +30,11 @@ if ( isset($_POST['submit']) ) {
     update_option("dib-auto", $auto_post);
     update_option("dib-cats", $dib_cats);
     update_option("dib-opening", mysql_real_escape_string($dib_opening));
+    update_option("dib-tags", mysql_real_escape_string($dib_tags));
+    update_option("dib-hour", mysql_real_escape_string($dib_hour));
+    update_option("dib-limit", mysql_real_escape_string($dib_limit));
+    
+    wp_reschedule_event(mktime(get_option("dib-hour"),'0','0'), 'daily', 'dib_cron');
 }
 
 // Get Current DB Values
@@ -36,6 +44,9 @@ $dib_title          = get_option("dib-title");
 $auto_post          = get_option("dib-auto");
 $dib_cats           = get_option("dib-cats");
 $dib_opening        = get_option("dib-opening");
+$dib_tags           = get_option("dib-tags");
+$dib_hour           = get_option("dib-hour");
+$dib_limit          = get_option("dib-limit");
 		
 ?>
 
@@ -50,7 +61,23 @@ $dib_opening        = get_option("dib-opening");
 			<?php if (function_exists('wp_nonce_field')) { wp_nonce_field($plugin_ref.'-updatesettings'); } ?>
 			<tr>
 				<th scope="row" valign="top"><label for="location">URL of inspiration feed:</label></th>
-				<td><input type="text" name="location" id="location" class="regular-text" style="width: 99%;" value="<?php echo $location; ?>" /></td>
+				<td><input type="text" name="location" id="location" class="regular-text" style="width: 99%;" value="<?php echo $location; ?>" /> <br />
+                <small>Default url is based on Eastern Standard Time</small></td>
+			</tr>
+            <tr>
+				<th scope="row" valign="top"><label for="auto-post">Automatically Publish?</label></th>
+				<td><fieldset id="auto-publish">
+                    <input type="radio" name="auto" id="yes" value="yes" <?php if($auto_post == 'yes') echo 'checked="checked" ' ?>/> Yes &nbsp; &nbsp; &nbsp; &nbsp;
+                    <input type="radio" name="auto" id="no" value="no" <?php if($auto_post == 'no') echo 'checked="checked" ' ?>/> No
+                </fieldset></td>
+			</tr>
+            <tr>
+				<th scope="row" valign="top"><label for="hour">Time to post:</label></th>
+				<td><input type="text" name="hour" id="hour" class="regular-text" style="width: 3.5%;" size="2" maxlength="2" value="<?php echo $dib_hour; ?>" />pm &nbsp; <small>(hour in military time)</small></td>
+			</tr>
+            <tr>
+				<th scope="row" valign="top"><label for="limit">Number of images:</label></th>
+				<td><input type="text" name="limit" id="limit" class="regular-text" style="width: 5%;" size="2" maxlength="3" value="<?php echo $dib_limit; ?>" /> <small>Leave blank for no limit</small></td>
 			</tr>
             <tr>
 				<th scope="row" valign="top"><label for="title">Title format:</label></th>
@@ -70,11 +97,9 @@ $dib_opening        = get_option("dib-opening");
                 <small>Allowed terms: <em>[image]</em>, <em>[image-url]</em>, <em>[image-alt]</em>, <em>[image-width]</em></small></td>
 			</tr>
             <tr>
-				<th scope="row" valign="top"><label for="auto-post">Automatically Publish?</label></th>
-				<td><fieldset id="auto-publish">
-                    <input type="radio" name="auto" id="yes" value="yes" <?php if($auto_post == 'yes') echo 'checked="checked" ' ?>/> Yes &nbsp; &nbsp; &nbsp; &nbsp;
-                    <input type="radio" name="auto" id="no" value="no" <?php if($auto_post == 'no') echo 'checked="checked" ' ?>/> No
-                </fieldset></td>
+				<th scope="row" valign="top"><label for="tags">Tags:</label></th>
+				<td><input type="text" name="tags" id="tags" class="regular-text" style="width: 99%;" value="<?php echo $dib_tags; ?>" /><br />
+                <small>Seperate tags with commas</small></td>
 			</tr>
             <tr>
 				<th scope="row" valign="top"><label for="categories">Categories of post:</label></th>

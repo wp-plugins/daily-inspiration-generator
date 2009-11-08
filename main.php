@@ -3,7 +3,7 @@
 Plugin Name: Daily Inspiration Generator
 Plugin URI: http://fire-studios.com/
 Description: Automatically generates a "Daily Inspiration" at the end of each day
-Version: 1.2.1
+Version: 1.3
 Author: Jonathan Wolfe
 Author URI: http://fire-g.com/
 */
@@ -11,9 +11,12 @@ Author URI: http://fire-g.com/
 /* 
 Change log
 
-__1.2.1__
+__1.3__
+ - Added customizations: "tags", "hour", & "limit"
+
+1.2.1
  - Fixed auto-publish selecting
- - added warning if not configured correctly
+ - Added warning if not configured correctly
 
 1.2
  - Fixed "fopen()" not working on all servers
@@ -54,6 +57,9 @@ $dib_title['count']          = 1;
 $auto_post                   = 'yes';
 $dib_cats                    = array(get_option('default_category'));
 $dib_opening                 = 'This post is part of our daily series of posts showing the most inspiring images from the biggest galleries on the web presented throughout the day.';
+$dib_tags                    = 'daily, inspiration, inspire';
+$dib_hour                    = '23';
+$dib_limit                   = '';
 
 
 // Put our defaults in the "wp-options" table
@@ -63,6 +69,9 @@ add_option("dib-title", $dib_title);
 add_option("dib-auto", $auto_post);
 add_option("dib-cats", $dib_cats);
 add_option("dib-opening", $dib_opening);
+add_option("dib-tags", $dib_tags);
+add_option("dib-hour", $dib_hour);
+add_option("dib-limit", $dib_limit);
 
 
 // Creates an admin page for your plugin to allow users to edit options
@@ -99,8 +108,12 @@ function builder(  ) {
             $inspirations[] = preg_replace($terms, $image, $format);
         }
         
-        foreach ( $inspirations as $inspiration ) {
-            $content .= $inspiration;
+        $dib_limit = get_option("dib-limit");
+        if(!empty($dib_limit)) $items = array_slice($inspirations, 0, $dib_limit);
+        else $items = $inspirations;
+        
+        foreach ( $items as $item ) {
+            $content .= $item;
         }
         
         $dib_title = get_option("dib-title");
@@ -111,6 +124,7 @@ function builder(  ) {
         if ($auto_post == 'yes') $auto = 'publish';
         if ($auto_post == 'no') $auto = 'pending';
         $dib_cats = get_option('dib-cats');
+        $dib_tags = get_option('dib-tags').", ".$dib_title['count'].", ".date(get_option('date_format'));
         
         // Create post object
         $new_post = array();
@@ -119,6 +133,7 @@ function builder(  ) {
         $new_post['post_status'] = $auto;
         $new_post['post_author'] = 1;
         $new_post['post_category'] = $dib_cats;
+        $new_post['tags_input'] = $dib_tags;
         
         // Insert the post into the database
         wp_insert_post( $new_post );
@@ -136,7 +151,7 @@ add_action('dib_cron', 'builder');
 
 register_activation_hook(__FILE__, 'activate_cron');
 function activate_cron() {
-    wp_schedule_event(mktime('23','0','0'), 'daily', 'dib_cron');
+    wp_schedule_event(mktime($dib_hour,'0','0'), 'daily', 'dib_cron');
 }
 register_deactivation_hook(__FILE__, 'deactivate_cron');
 function deactivate_cron() {

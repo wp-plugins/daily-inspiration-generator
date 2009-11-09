@@ -88,7 +88,7 @@ $dib_limit          = get_option("dib-limit");
 			</tr>
             <tr>
 				<th scope="row" valign="top"><label for="opening">Opening paragraph of the post:</label></th>
-				<td><textarea rows="5" cols="10" name="opening" id="opening" class="large-text"><?php echo $dib_opening; ?></textarea></td>
+				<td><textarea rows="5" cols="10" name="opening" id="opening" class="large-text"><?php echo stripslashes(stripslashes($dib_opening)); ?></textarea></td>
 			</tr>
 			<tr>
 				<th scope="row" valign="top"><label for="format">Display format:</label></th>

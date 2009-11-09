@@ -3,7 +3,7 @@
 Plugin Name: Daily Inspiration Generator
 Plugin URI: http://fire-studios.com/
 Description: Automatically generates a "Daily Inspiration" at the end of each day
-Version: 1.3.1
+Version: 1.3.2
 Author: Jonathan Wolfe
 Author URI: http://fire-g.com/
 */
@@ -11,7 +11,10 @@ Author URI: http://fire-g.com/
 /* 
 Change log
 
-__1.3.1__
+__1.3.2__
+ - Fixed opening slashes bug
+
+1.3.1
  - Fixed auto-publish bug
  - Fixed custom format slashes bug
  - added remover for extra cron scheduals
@@ -102,7 +105,7 @@ function builder(  ) {
             echo $image[0];
         } */
         
-        $content = get_option('dib-opening');
+        $content = stripslashes(stripslashes(get_option("dib-opening")));
         $content .= ' <!--more--> ';
         
     	$format = stripslashes(stripslashes(get_option("dib-format")));
@@ -156,6 +159,9 @@ add_action('dib_cron', 'builder');
 
 register_activation_hook(__FILE__, 'activate_cron');
 function activate_cron() {
+    wp_clear_scheduled_hook('dib_cron');
+    wp_clear_scheduled_hook('dib_cron');
+    wp_clear_scheduled_hook('dib_cron');
     wp_schedule_event(mktime($dib_hour,'0','0'), 'daily', 'dib_cron');
 }
 register_deactivation_hook(__FILE__, 'deactivate_cron');

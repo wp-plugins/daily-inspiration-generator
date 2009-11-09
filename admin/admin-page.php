@@ -15,8 +15,7 @@ if ( isset($_POST['submit']) ) {
 	$format                 = $_POST['format'];
     $dib_title              = get_option("dib-title");
     $dib_title['format']    = $_POST['title'];
-    if(isset($_POST['yes']))   $auto_post = $_POST['yes'];
-    if(isset($_POST['no']))    $auto_post = $_POST['no'];
+    $auto_post              = $_POST['auto'];
 	$dib_cats       	    = $_POST['post_category'];
     $dib_opening            = $_POST['opening'];
     $dib_tags               = $_POST['tags'];
@@ -67,8 +66,8 @@ $dib_limit          = get_option("dib-limit");
             <tr>
 				<th scope="row" valign="top"><label for="auto-post">Automatically Publish?</label></th>
 				<td><fieldset id="auto-publish">
-                    <input type="radio" name="auto" id="yes" value="yes" <?php if($auto_post == 'yes') echo 'checked="checked" ' ?>/> Yes &nbsp; &nbsp; &nbsp; &nbsp;
-                    <input type="radio" name="auto" id="no" value="no" <?php if($auto_post == 'no') echo 'checked="checked" ' ?>/> No
+                    <input type="radio" name="auto" value="yes" <?php if($auto_post == 'yes') echo 'checked="checked" ' ?>/> Yes &nbsp; &nbsp; &nbsp; &nbsp;
+                    <input type="radio" name="auto" value="no" <?php if($auto_post == 'no') echo 'checked="checked" ' ?>/> No
                 </fieldset></td>
 			</tr>
             <tr>
@@ -93,7 +92,7 @@ $dib_limit          = get_option("dib-limit");
 			</tr>
 			<tr>
 				<th scope="row" valign="top"><label for="format">Display format:</label></th>
-				<td><textarea rows="5" cols="10" name="format" id="format" class="large-text code"><?php echo $format; ?></textarea><br />
+				<td><textarea rows="5" cols="10" name="format" id="format" class="large-text code"><?php echo stripslashes(stripslashes($format)); ?></textarea><br />
                 <small>Allowed terms: <em>[image]</em>, <em>[image-url]</em>, <em>[image-alt]</em>, <em>[image-width]</em></small></td>
 			</tr>
             <tr>

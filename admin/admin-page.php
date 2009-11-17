@@ -33,7 +33,8 @@ if ( isset($_POST['submit']) ) {
     update_option("dib-hour", mysql_real_escape_string($dib_hour));
     update_option("dib-limit", mysql_real_escape_string($dib_limit));
     
-    wp_reschedule_event(mktime(get_option("dib-hour"),'0','0'), 'daily', 'dib_cron');
+    wp_clear_scheduled_hook('dib_cron');
+    wp_schedule_event(gmmktime(get_option('dib-hour'),'0','0'), 'daily', 'dib_cron');
 }
 
 // Get Current DB Values

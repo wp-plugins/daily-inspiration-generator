@@ -15,7 +15,10 @@ Automatically generates a daily series of posts showing the most inspiring image
 **Very important that you read the instructions!**
 
 == Change log ==
-__1.3.2__
+__1.3.3__
+ - Fixed bug that caused multiple instances of cron job
+
+1.3.2
  - Fixed opening slashes bug
 
 1.3.1

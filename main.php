@@ -3,7 +3,7 @@
 Plugin Name: Daily Inspiration Generator
 Plugin URI: http://fire-studios.com/
 Description: Automatically generates a "Daily Inspiration" at the end of each day
-Version: 1.3.3
+Version: 2.0
 Author: Jonathan Wolfe
 Author URI: http://fire-g.com/
 */
@@ -11,7 +11,15 @@ Author URI: http://fire-g.com/
 /* 
 Change log
 
-__1.3.3__
+__2.0__
+ - New image obtaining system
+ - Altered "format" option
+ - Temporaily removed automatic posting
+ - Requires user interaction
+ - Increased diversity of images
+ - Added new link in "Post" menu to create inspiration
+
+1.3.3
  - Fixed bug that caused multiple instances of cron job
 
 1.3.2
@@ -65,11 +73,11 @@ $format			  	         = '[image]';
 $dib_title                   = array();
 $dib_title['format']         = 'numbered';
 $dib_title['count']          = 1;
-$auto_post                   = 'yes';
+// $auto_post                   = 'yes';
 $dib_cats                    = array(get_option('default_category'));
 $dib_opening                 = 'This post is part of our daily series of posts showing the most inspiring images from the biggest galleries on the web presented throughout the day.';
 $dib_tags                    = 'daily, inspiration, inspire';
-$dib_hour                    = '23';
+// $dib_hour                    = '23';
 $dib_limit                   = '';
 
 
@@ -77,25 +85,25 @@ $dib_limit                   = '';
 add_option("dib-location", $location);
 add_option("dib-format", $format);
 add_option("dib-title", $dib_title);
-add_option("dib-auto", $auto_post);
+// add_option("dib-auto", $auto_post);
 add_option("dib-cats", $dib_cats);
 add_option("dib-opening", $dib_opening);
 add_option("dib-tags", $dib_tags);
-add_option("dib-hour", $dib_hour);
+// add_option("dib-hour", $dib_hour);
 add_option("dib-limit", $dib_limit);
 
 
 // Creates an admin page for your plugin to allow users to edit options
 // Delete this function and the action at the bottom to remove this functionality
 require('admin/add-admin-page.php');
- 
+
+/* 
 function builder(  ) {
 	
 	$location = rtrim(get_option("dib-location"));
     
     $buffer = file_get_contents($location);
     if ( $buffer != NULL && $buffer ) {
-        /* Parse */
     	preg_match_all( "/<img src=[\"'](.+?)[\"'] alt=[\"'](.*?)[\"'] width=[\"'](\d+)[\"'](?:| )(?:|\/)>/", $buffer, $matches, PREG_SET_ORDER);
     	$images = array();
     
@@ -104,9 +112,6 @@ function builder(  ) {
     			$images[] = $match;
     		}
     	}
-        /* foreach ( $images as $image ) {
-            echo $image[0];
-        } */
         
         $content = stripslashes(stripslashes(get_option("dib-opening")));
         $content .= ' <!--more--> ';
@@ -153,19 +158,29 @@ function builder(  ) {
         update_option('dib-title', $dib_title);
     }
 }
+*/
 
 // insert admin page into menu, delete if not using an admin page
 add_action('admin_menu', 'add_config_page');
+function dib_post_submenu(){
+    add_submenu_page("edit.php", 'Create Inspiration', 'Create Inspiration', 4, 'dib_post_create', 'dib_post_create');
+}
+add_action('admin_menu', 'dib_post_submenu');
 
 // create custom hook for cron
-add_action('dib_cron', 'builder');
+// add_action('dib_cron', 'builder');
+
+function dib_post_create(){
+    header( 'Location: '.get_bloginfo('url').'/wp-content/plugins/daily-inspiration-generator/builder.php?post_referer='.get_bloginfo('url').'/wp-admin/options-general.php?page=diBuilder-options' );
+}
 
 register_activation_hook(__FILE__, 'activate_cron');
 function activate_cron() {
     wp_clear_scheduled_hook('dib_cron');
     wp_clear_scheduled_hook('dib_cron');
     wp_clear_scheduled_hook('dib_cron');
-    wp_schedule_event(gmmktime(get_option('dib-hour'),'0','0'), 'daily', 'dib_cron');
+    // wp_schedule_event(gmmktime(get_option('dib-hour'),'0','0'), 'daily', 'dib_cron');
+    update_option('dib-format','[image]');
 }
 register_deactivation_hook(__FILE__, 'deactivate_cron');
 function deactivate_cron() {
